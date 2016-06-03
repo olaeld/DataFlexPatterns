@@ -1,0 +1,117 @@
+Use DFUnit.pkg
+Use cIsNumericType.pkg
+
+Object IsNumericType_spec is a cTestFixture
+    Object IsNumber_spec is a cTestFixture
+        
+        Object Common_cases_for_all_functions is a cTestFixture
+            Object Empty_string_fails is a cTest
+                Procedure Test
+                    Send AssertFalse (IsNumber(gcIsNumericType, ""))
+                    Send AssertFalse (IsInteger(gcIsNumericType, ""))
+                    Send AssertFalse (IsPositiveOrZeroInteger(gcIsNumericType, ""))
+                End_Procedure
+            End_Object
+            Object Positive_integer_passes is a cTest
+                Procedure Test
+                    Send Assert (IsNumber(gcIsNumericType, "873"))
+                    Send Assert (IsInteger(gcIsNumericType, "873"))
+                    Send Assert (IsPositiveOrZeroInteger(gcIsNumericType, "873"))
+                End_Procedure
+            End_Object
+            Object Zero_passes is a cTest
+                Procedure Test
+                    Send Assert (IsNumber(gcIsNumericType, "0"))
+                    Send Assert (IsInteger(gcIsNumericType, "0"))
+                    Send Assert (IsPositiveOrZeroInteger(gcIsNumericType, "0"))
+                End_Procedure
+            End_Object
+            Object Minus_not_in_first_position_fails is a cTest
+                Procedure Test
+                    Send AssertFalse (IsNumber(gcIsNumericType, "0-23"))
+                    Send AssertFalse (IsInteger(gcIsNumericType, "0-23"))
+                    Send AssertFalse (IsPositiveOrZeroInteger(gcIsNumericType, "0-23"))
+                End_Procedure
+            End_Object
+            Object Plus_not_in_first_position_fails is a cTest
+                Procedure Test
+                    Send AssertFalse (IsNumber(gcIsNumericType, "+0++"))
+                    Send AssertFalse (IsInteger(gcIsNumericType, "+0++"))
+                    Send AssertFalse (IsPositiveOrZeroInteger(gcIsNumericType, "+0++"))
+                End_Procedure
+            End_Object
+        End_Object
+        
+        Object Common_cases_for_integer_functions is a cTestFixture
+            Object Number_with_decimals_and_thousands_separator_fails is a cTest
+                Procedure Test
+                    Send AssertFalse (IsInteger(gcIsNumericType, "100 000,00"))
+                    Send AssertFalse (IsPositiveOrZeroInteger(gcIsNumericType, "100 000,00"))
+                    Send AssertFalse (IsInteger(gcIsNumericType, "3.2"))
+                    Send AssertFalse (IsPositiveOrZeroInteger(gcIsNumericType, "3.2"))
+                End_Procedure
+            End_Object
+            Object Number_with_decimals_fails is a cTest
+                Procedure Test
+                    Send AssertFalse (IsInteger(gcIsNumericType, "3.2"))
+                    Send AssertFalse (IsPositiveOrZeroInteger(gcIsNumericType, "3.2"))
+                End_Procedure
+            End_Object
+            Object Negative_number_with_decimals_fails is a cTest
+                Procedure Test
+                    Send AssertFalse (IsInteger(gcIsNumericType, "-123.02"))
+                    Send AssertFalse (IsPositiveOrZeroInteger(gcIsNumericType, "-123.02"))
+                End_Procedure
+            End_Object
+        End_Object
+        
+        Object Common_cases_for_non_integer_functions is a cTestFixture
+            Object Number_with_decimals_passes is a cTest
+                Procedure Test
+                    Send Assert (IsNumber(gcIsNumericType, "-123.02", "."))
+                End_Procedure
+            End_Object
+            Object Number_with_decimals_and_thousands_separator_passes is a cTest
+                Procedure Test
+                    Send Assert (IsNumber(gcIsNumericType, "100 000,00", ",", " "))
+                End_Procedure
+            End_Object
+            Object Number_with_several_decimal_points_fails is a cTest
+                Procedure Test
+                    Send AssertFalse (IsNumber(gcIsNumericType, "10.10.10", "."))
+                End_Procedure
+            End_Object
+        End_Object
+        
+        Object Common_cases_for_functions_accepting_negative_values is a cTestFixture
+            Object Negative_integer_passes is a cTest
+                Procedure Test
+                    Send Assert (IsNumber(gcIsNumericType, "-12345"))
+                    Send Assert (IsInteger(gcIsNumericType, "-12345"))
+                End_Procedure
+            End_Object
+        End_Object
+        
+        Object Common_cases_for_functions_that_accept_positive_values_only is a cTestFixture
+            Object Negative_integer_fails is a cTest
+                Procedure Test
+                    Send AssertFalse (IsPositiveOrZeroInteger(gcIsNumericType, "-10"))
+                End_Procedure
+            End_Object
+            Object Negative_number_with_decimals_fails is a cTest
+                Procedure Test
+                    Send AssertFalse (IsPositiveOrZeroInteger(gcIsNumericType, "-3.2"))
+                End_Procedure
+            End_Object
+        End_Object
+    End_Object
+    
+    //Todo: We need to test and implement cases like these:
+    //123.123.123
+    //+123+123+123
+    //-123-123-123
+    //1-
+    //1+
+    //decimal separator can only appear once
+    //+ and - can only appear at beginning of string
+End_Object

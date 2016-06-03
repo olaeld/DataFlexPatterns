@@ -1,0 +1,42 @@
+Use seq_chnl.pkg
+
+//Sequential file. Implements low-level features (channels!)
+//This is an abstract class, and should only be instantiated through its
+//subclasses cSeqInputFile and cSeqOutputFile.
+//Doc/ClassType=Abstract
+Class cSeqFile is a cObject
+    Procedure Construct_Object
+        Forward Send Construct_Object
+        { Visibility = Private }
+        Property Integer piChannel DF_SEQ_CHANNEL_NOT_AVAILABLE
+    End_Procedure
+    
+    //Gets an available channel, and sets the internal channel property
+    //@Return True if succesful, false if not.
+    { Visibility = Private }
+    Function AssignChannel returns Boolean
+        Boolean bOK
+        Integer iChannel
+        Move (Seq_New_Channel()) to iChannel
+        set piChannel to iChannel
+        Move ((iChannel >= DF_SEQ_CHANNEL_MIN) and ;
+              (iChannel <= DF_SEQ_CHANNEL_MAX) and ;
+              (iCHannel <> DF_SEQ_CHANNEL_NOT_AVAILABLE)) to bOK
+        Function_Return bOK
+    End_Function
+    
+    //Releases the assigned channel. Sets the internal channel property to
+    //DF_SEQ_CHANNEL_NOT_AVAILABLE
+    { Visibility = Private }
+    Procedure ReleaseChannel
+        Integer iChannel
+        Get piChannel to iChannel
+        Send Seq_Release_Channel iChannel
+        Set piChannel to DF_SEQ_CHANNEL_NOT_AVAILABLE
+    End_Procedure
+     
+    //Interface to be subclassed.
+    Procedure CloseFile
+    End_Procedure
+     
+End_Class
