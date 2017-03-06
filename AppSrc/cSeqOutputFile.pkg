@@ -39,9 +39,12 @@ Class cSeqOutputFile is a cSeqFile
     
     {Visibility=Public}
     Procedure CloseFile
-        Close_Output Channel (piChannel(self))
-        If (Seq_Channel_List(Self)) Send ReleaseChannel //When exiting application, this object may already have been destroyed at this point
-        Set pbFileOpen to False
+        If (pbFileOpen(Self)) Begin
+            Close_Output channel (piChannel(Self))
+            If (Seq_Channel_List(Self)) Send ReleaseChannel //When exiting application, this object may already have been destroyed at this point
+            Set pbFileOpen to False
+        End
+        Else Error DFERR_PROGRAM "File not open. Cannot close."
     End_Procedure // CloseFile
     
     {Visibility=Private}
