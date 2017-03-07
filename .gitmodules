@@ -1,0 +1,3 @@
+[submodule "vwin32fh"]
+	path = vwin32fh
+	url = https://github.com/olaeld/vwin32fh.git
