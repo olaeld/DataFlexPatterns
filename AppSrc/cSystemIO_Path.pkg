@@ -50,6 +50,16 @@ Class cSystemIO_Path is a cObject
         End
         Function_Return (UniqueFileName(Self, sPath+sFirstName+"."+sExtension))
     End_Function
+    
+    {Visibility=Public}
+    Function RemoveLastPartOfPath String sPath Returns String
+        Integer iTeller
+        For iTeller from 0 to (length(sPath)-1)
+        If (Mid(sPath, 1, Length(sPath) - iTeller) <> "\") Loop
+        If (iTeller < (Length(sPath) - 1)) Move (left(sPath, Length(sPath) - (iTeller + 1))) to sPath
+        Else Move "" to sPath
+        Function_Return sPath
+    End_Function
 End_Class
 
 //Global variable serves as "static class identifier"
