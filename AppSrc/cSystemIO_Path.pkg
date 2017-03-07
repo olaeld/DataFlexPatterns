@@ -1,3 +1,5 @@
+Use vWin32fh.pkg
+
 Class cSystemIO_Path is a cObject
     {Visibility=Private}
     Function ParseFileFirstName String sFileName Returns String
@@ -40,7 +42,7 @@ Class cSystemIO_Path is a cObject
             Move (Mid(sFirstName,1,iPos)+sNumSuffix) to sNumSuffix
             Move (iPos-1) to iPos
         Loop
-        If (IsPositiveOrZeroInteger(gcIsNumericType, sNumSuffix)) Move (Integer(sNumSuffix)) to iNumSuffix
+        If (IsPositiveOrZeroInteger(gcStringMethods, sNumSuffix)) Move (Integer(sNumSuffix)) to iNumSuffix
         Else Move 0 to iNumSuffix
         If (iNumSuffix = 0) Move (sFirstName+"_1") to sFirstName
         Else Begin
