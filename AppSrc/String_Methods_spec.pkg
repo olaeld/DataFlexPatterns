@@ -105,13 +105,4 @@ Object IsNumericType_spec is a cTestFixture
             End_Object
         End_Object
     End_Object
-    
-    //Todo: We need to test and implement cases like these:
-    //123.123.123
-    //+123+123+123
-    //-123-123-123
-    //1-
-    //1+
-    //decimal separator can only appear once
-    //+ and - can only appear at beginning of string
 End_Object
